@@ -258,6 +258,9 @@ vis.types.window.set_syntax = function(win, syntax)
 		return true
 	end
 
+	-- set syntax regardless of whether there is a lexer for it
+	win.syntax = syntax
+
 	if not lexers.load then return false end
 	local lexer = lexers.load(syntax)
 	if not lexer then return false end
@@ -267,7 +270,6 @@ vis.types.window.set_syntax = function(win, syntax)
 		win:style_define(id, style)
 	end
 
-	win.syntax = syntax
 	return true
 end
 
