@@ -222,6 +222,7 @@ struct Vis {
 	Array textobjects;
 	Array bindings;
 	bool ignorecase;                     /* whether to ignore case when searching */
+	bool syntax;                         /* whether to enable syntax highlighting */
 };
 
 enum VisEvents {

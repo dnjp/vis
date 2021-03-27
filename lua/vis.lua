@@ -255,7 +255,6 @@ vis.types.window.set_syntax = function(win, syntax)
 	win:style_define(win.STYLE_EOF, lexers.STYLE_EOF or '')
 
 	if syntax == nil or syntax == 'off' then
-		win.syntax = nil
 		return true
 	end
 

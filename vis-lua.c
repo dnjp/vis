@@ -3083,6 +3083,8 @@ void vis_lua_win_close(Vis *vis, Win *win) {
  * @see style
  */
 void vis_lua_win_highlight(Vis *vis, Win *win) {
+	if (!vis->syntax)
+		return;
 	lua_State *L = vis->lua;
 	if (!L)
 		return;

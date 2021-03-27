@@ -364,6 +364,9 @@ static bool cmd_set(Vis *vis, Win *win, Command *cmd, const char *argv[], Select
 	case OPTION_IGNORECASE:
 		vis->ignorecase = toggle ? !vis->ignorecase : arg.b;
 		break;
+	case OPTION_SYNTAX:
+		vis->syntax = toggle ? !vis->syntax : arg.b;
+		break;
 	default:
 		if (!opt->func)
 			return false;
