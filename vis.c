@@ -586,9 +586,20 @@ void vis_resume(Vis *vis) {
 }
 
 bool vis_window_new(Vis *vis, const char *filename) {
+
 	File *file = file_new(vis, filename);
 	if (!file)
 		return false;
+	
+	if(vis->cur_filename == NULL) 
+		vis->cur_filename = (char*)malloc(PATH_MAX*sizeof(char));
+	if(vis->prev_filename == NULL)
+		vis->prev_filename = (char*)malloc(PATH_MAX*sizeof(char));
+	if(vis->cur_filename != NULL)
+		strcpy(vis->prev_filename, vis->cur_filename);
+	if(filename != NULL)
+		strcpy(vis->cur_filename, filename);
+
 	Win *win = window_new_file(vis, file, UI_OPTION_STATUSBAR|UI_OPTION_SYMBOL_EOF);
 	if (!win) {
 		file_free(vis, file);

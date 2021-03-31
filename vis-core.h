@@ -223,6 +223,10 @@ struct Vis {
 	Array bindings;
 	bool ignorecase;                     /* whether to ignore case when searching */
 	bool syntax;                         /* whether to enable syntax highlighting */
+	/* the name of the previous file that was opened */
+	char *prev_filename;
+	/* the name of the current file that is open */
+	char *cur_filename;
 };
 
 enum VisEvents {

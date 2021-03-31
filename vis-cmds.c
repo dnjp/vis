@@ -392,6 +392,9 @@ static bool is_file_pattern(const char *pattern) {
 static const char *file_open_dialog(Vis *vis, const char *pattern) {
 	static char name[PATH_MAX];
 	name[0] = '\0';
+	
+	if (strcmp(pattern, "#") == 0 && vis->prev_filename != NULL)
+		pattern = vis->prev_filename;
 
 	if (!is_file_pattern(pattern))
 		return pattern;
@@ -400,7 +403,6 @@ static const char *file_open_dialog(Vis *vis, const char *pattern) {
 	buffer_init(&bufcmd);
 	buffer_init(&bufout);
 	buffer_init(&buferr);
-
 	if (!buffer_put0(&bufcmd, VIS_OPEN " ") || !buffer_append0(&bufcmd, pattern ? pattern : ""))
 		return NULL;
 
