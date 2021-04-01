@@ -392,9 +392,6 @@ static bool is_file_pattern(const char *pattern) {
 static const char *file_open_dialog(Vis *vis, const char *pattern) {
 	static char name[PATH_MAX];
 	name[0] = '\0';
-	
-	if (strcmp(pattern, "#") == 0 && vis->prev_filename != NULL)
-		pattern = vis->prev_filename;
 
 	if (!is_file_pattern(pattern))
 		return pattern;
@@ -426,9 +423,26 @@ static const char *file_open_dialog(Vis *vis, const char *pattern) {
 	return name[0] ? name : NULL;
 }
 
+static bool fill_filename(Vis *vis, char *filename, const char *pattern) {
+	/* previous file */
+	if (strcmp(pattern, "#") == 0) {
+		if(vis->prev_filename[0] == '\0')
+			strcpy(filename, vis->cur_filename);
+		else
+			strcpy(filename, vis->prev_filename);
+	} else
+		strcpy(filename, pattern);
+	return true;
+}
+
 static bool openfiles(Vis *vis, const char **files) {
 	for (; *files; files++) {
-		const char *file = file_open_dialog(vis, *files);
+		char name[PATH_MAX];
+		char info[PATH_MAX];
+		if (!fill_filename(vis, name, *files))
+			return false;
+
+		const char *file = file_open_dialog(vis, name);
 		if (!file)
 			return false;
 		errno = 0;

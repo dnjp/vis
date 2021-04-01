@@ -468,9 +468,11 @@ void vis_window_invalidate(Win *win) {
 }
 
 Win *window_new_file(Vis *vis, File *file, enum UiOption options) {
+
 	Win *win = calloc(1, sizeof(Win));
 	if (!win)
 		return NULL;
+
 	win->vis = vis;
 	win->file = file;
 	win->view = view_new(file->text);
@@ -590,21 +592,17 @@ bool vis_window_new(Vis *vis, const char *filename) {
 	File *file = file_new(vis, filename);
 	if (!file)
 		return false;
-	
-	if(vis->cur_filename == NULL) 
-		vis->cur_filename = (char*)malloc(PATH_MAX*sizeof(char));
-	if(vis->prev_filename == NULL)
-		vis->prev_filename = (char*)malloc(PATH_MAX*sizeof(char));
-	if(vis->cur_filename != NULL)
-		strcpy(vis->prev_filename, vis->cur_filename);
-	if(filename != NULL)
-		strcpy(vis->cur_filename, filename);
 
 	Win *win = window_new_file(vis, file, UI_OPTION_STATUSBAR|UI_OPTION_SYMBOL_EOF);
 	if (!win) {
 		file_free(vis, file);
 		return false;
 	}
+
+	/* store current and previous file state */
+	strcpy(vis->prev_filename, vis->cur_filename);
+	if(file->name != NULL)
+		strcpy(vis->cur_filename, file->name);
 
 	return true;
 }
@@ -721,6 +719,12 @@ Vis *vis_new(Ui *ui, VisEvent *event) {
 		goto err;
 	vis->mode_prev = vis->mode = &vis_modes[VIS_MODE_NORMAL];
 	vis->event = event;
+
+	vis->cur_filename = (char*)malloc(PATH_MAX*sizeof(char));
+	memset(vis->cur_filename, '\0', PATH_MAX*sizeof(char));
+	vis->prev_filename = (char*)malloc(PATH_MAX*sizeof(char));
+	memset(vis->prev_filename, '\0', PATH_MAX*sizeof(char));
+
 	if (event) {
 		if (event->mode_insert_input)
 			vis_modes[VIS_MODE_INSERT].input = event->mode_insert_input;
