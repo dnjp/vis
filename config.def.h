@@ -188,14 +188,16 @@ static const KeyBinding bindings_normal[] = {
 	{ "<C-p>",              ACTION(SELECTIONS_REMOVE_LAST)              },
 	{ "<C-r>",              ACTION(REDO)                                },
 	{ "<C-u>",              ACTION(SELECTIONS_PREV)                     },
-	{ "<C-w>c",             ALIAS(":q<Enter>")                          },
-	{ "<C-w>h",             ALIAS("<C-w>k")                             },
-	{ "<C-w>j",             ACTION(WINDOW_NEXT)                         },
-	{ "<C-w>k",             ACTION(WINDOW_PREV)                         },
-	{ "<C-w>l",             ALIAS("<C-w>j")                             },
-	{ "<C-w>n",             ALIAS(":open<Enter>")                       },
-	{ "<C-w>s",             ALIAS(":split<Enter>")                      },
-	{ "<C-w>v",             ALIAS(":vsplit<Enter>")                     },
+	/* { "<C-w>c",             ALIAS(":q<Enter>")                          }, */
+	/* { "<C-w>h",             ALIAS("<C-w>k")                             }, */
+	/* { "<C-w>j",             ACTION(WINDOW_NEXT)                         }, */
+	/* { "<C-w>k",             ACTION(WINDOW_PREV)                         }, */
+	/* { "<C-w>l",             ALIAS("<C-w>j")                             }, */
+	/* { "<C-w>n",             ALIAS(":open<Enter>")                       }, */
+	/* { "<C-w>s",             ALIAS(":split<Enter>")                      }, */
+	/* { "<C-w>v",             ALIAS(":vsplit<Enter>")                     }, */
+	/*                 use ctrl-w behavior from nvi                     */
+	{ "<C-w>",              ACTION(WINDOW_NEXT)                         },  
 	{ "<C-y>",              ACTION(WINDOW_SLIDE_DOWN)                   },
 	{ "D",                  ALIAS("d$")                                 },
 	{ "<Escape>",           ACTION(MODE_NORMAL_ESCAPE)                  },
